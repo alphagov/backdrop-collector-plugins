@@ -24,7 +24,7 @@ def take_first_department_code(department_codes):
 
 
 DEPARTMENT_MAPPING = {
-    "<D1>": "Attorney General office",
+    "<D1>": "AGO",
     "<D2>": "CO",
     "<D3>": "BIS",
     "<D4>": "DCLG",
@@ -39,19 +39,15 @@ DEPARTMENT_MAPPING = {
     "<D13>": "FCO",
     "<D15>": "HMT",
     "<D16>": "HO",
-    "<D17>": "MoD",
+    "<D17>": "MOD",
     "<D18>": "MOJ",
+    "<D19>": "NIO",
+    "<D20>": "OAG",
     "<D25>": "HMRC",
     "<D102>": "FSA",
     "<OT532>": "No 10",
     "<OT537>": "ODPM",
 }
-
-FIXTURE = [
-    {"key_name":"<D10>"},
-    {"key_name":"<D18><D9>"},
-    {"key_name":"<OT537>"},
-    {"key_name":"<D30>"},]
 
 def test_mapping():
     from nose.tools import assert_equal, assert_in, assert_raises 
