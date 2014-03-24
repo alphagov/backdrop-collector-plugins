@@ -1,6 +1,10 @@
 import re
 
 class ComputeDepartmentKey(object):
+    """
+    Adds a 'department' key to a dictionary by looking up the department from the specified, key_name.
+    It takes the first department code of form <[code]> from document[key_name].
+    """
     def __init__(self, key_name):
         self.key_name = key_name
 
@@ -50,7 +54,7 @@ DEPARTMENT_MAPPING = {
 }
 
 def test_mapping():
-    from nose.tools import assert_equal, assert_in, assert_raises 
+    from nose.tools import assert_equal, assert_in
 
     plugin = ComputeDepartmentKey("key_name")
     documents = [{"key_name":"<D10>"}]
@@ -61,24 +65,29 @@ def test_mapping():
 
 
 def test_fail_if_no_key_name_in_document():
-    from nose.tools import assert_equal, assert_in, assert_raises
+    from nose.tools import assert_raises
+
     plugin = ComputeDepartmentKey("key_name")
     documents = [{"foo":"<D10>"}]
+
     with assert_raises(AssertionError):
         plugin(documents)
 
 def test_unknown_department_code():
-    from nose.tools import assert_equal, assert_in, assert_raises
+    from nose.tools import assert_equal
+
     plugin = ComputeDepartmentKey("key_name")
     documents = [{"key_name":"<D30>"}]
-    (transformed_document, ) = plugin(documents)    
+    (transformed_document, ) = plugin(documents)
+
     assert_equal(transformed_document["department"], "<D30>")
 
 def test_takes_first_code():
     from nose.tools import assert_equal
+
     plugin = ComputeDepartmentKey("key_name")
     documents = [{"key_name":"<D10><D9>"}]
+    (transformed_document, ) = plugin(documents)
 
-    (transformed_document, ) = plugin(documents)    
     assert_equal(transformed_document["department"], "DWP")
     
