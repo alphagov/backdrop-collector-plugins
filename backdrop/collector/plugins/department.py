@@ -1,3 +1,5 @@
+import re
+
 class ComputeDepartmentKey(object):
     def __init__(self, key_name):
         self.key_name = key_name
@@ -7,12 +9,18 @@ class ComputeDepartmentKey(object):
             assert self.key_name in document, (
                 'key "{}" not found "{}"'.format(self.key_name, document))
             department_codes = document[self.key_name]
-            department_code = department_codes
+            department_code = take_first_department_code(department_codes)
             document["department"] = DEPARTMENT_MAPPING.get(department_code, department_code)
             return document
 
         return [compute_department(document) for document in documents]
 
+def take_first_department_code(department_codes):
+    get_first_re = re.compile("^(<[^>]+>).*$")
+    match = get_first_re.match(department_codes)
+    assert match is not None
+    (department_code, ) = match.groups()
+    return department_code
 
 
 DEPARTMENT_MAPPING = {
