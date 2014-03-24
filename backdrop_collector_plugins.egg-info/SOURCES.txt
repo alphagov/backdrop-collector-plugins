@@ -1,0 +1,8 @@
+backdrop/collector/plugins/__init__.py
+backdrop/collector/plugins/aggregate.py
+backdrop/collector/plugins/department.py
+backdrop_collector_plugins.egg-info/PKG-INFO
+backdrop_collector_plugins.egg-info/SOURCES.txt
+backdrop_collector_plugins.egg-info/dependency_links.txt
+backdrop_collector_plugins.egg-info/namespace_packages.txt
+backdrop_collector_plugins.egg-info/top_level.txt
