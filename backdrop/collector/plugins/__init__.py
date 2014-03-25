@@ -1,2 +1,2 @@
-from .aggregate import AggregateByKey
+from .aggregate import AggregateKey
 from .department import ComputeDepartmentKey
