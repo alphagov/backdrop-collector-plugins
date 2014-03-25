@@ -19,7 +19,11 @@ def load_plugins(plugin_names):
 
 
 def load_plugin(plugin_name):
-    return NotImplemented
+
+    expr = compile(plugin_name, "backdrop.collector plugin", "eval")
+
+    return eval(expr, __builtin__.__dict__,
+                backdrop.collector.plugins.__dict__)
 
 
 def test_load_plugin_trivial():
