@@ -1,3 +1,5 @@
+from __future__ import division
+
 from itertools import groupby
 
 
@@ -14,17 +16,23 @@ def group(iterable, key):
     for _, grouped in groupby(sorted(iterable, key=key), key=key):
         yield list(grouped)
 
+
 def aggregate_count(keyname):
     def inner(docs):
         return sum(doc[keyname] for doc in docs)
 
     return keyname, inner
 
+
 def aggregate_rate(rate_key, count_key):
     def inner(docs):
-        return sum(doc[keyname] for doc in docs)
+        total = sum(doc[count_key] for doc in docs)
+        weighted_total = sum(doc[rate_key] * doc[count_key] for doc in docs)
+        total_rate = weighted_total / total
+        return total_rate
 
     return rate_key, inner
+
 
 def make_aggregate(docs, values_to_aggregate):
     """
@@ -33,7 +41,7 @@ def make_aggregate(docs, values_to_aggregate):
     new_doc = dict(docs[0])
 
     for keyname, aggregation_function in values_to_aggregate:
-        new_doc[keyname] = aggregation_function(docs, keyname)
+        new_doc[keyname] = aggregation_function(docs)
 
     return new_doc
 
@@ -59,8 +67,9 @@ def test_make_aggregate_sum():
     from nose.tools import assert_equal
     doc1 = {"a": 2, "b": 2, "c": 2, "visits": 201}
     doc2 = {"a": 2, "b": 2, "c": 2, "visits": 103}
+    docs = [doc1, doc2]
 
-    aggregate_doc = make_aggregate([doc1, doc2], aggregate_count("visits"))
+    aggregate_doc = make_aggregate(docs, [aggregate_count("visits")])
     expected_aggregate = {"a": 2, "b": 2, "c": 2, "visits": 304}
     assert_equal(aggregate_doc, expected_aggregate)
 
@@ -69,11 +78,13 @@ def test_make_aggregate_rate():
     from nose.tools import assert_equal
     doc1 = {"a": 2, "b": 2, "c": 2, "visits": 100, "rate": 0.25}
     doc2 = {"a": 2, "b": 2, "c": 2, "visits": 100, "rate": 0.75}
+    docs = [doc1, doc2]
 
-    aggregate_doc = make_aggregate([doc1, doc2], ("visits", "rate" ))
+    aggregate_doc = make_aggregate(docs, [aggregate_count("visits"),
+                                          aggregate_rate("rate", "visits")])
     expected_aggregate = {
         "a": 2, "b": 2, "c": 2,
-        "visits": 200, 
+        "visits": 200,
         "rate": (0.25 * 100 + 0.75 * 100) / (100 + 100)}
 
     assert_equal(aggregate_doc, expected_aggregate)
