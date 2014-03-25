@@ -11,7 +11,7 @@ class AggregateKey(object):
 
 
 def group(iterable, key):
-    for _, grouped in groupby(sorted(docs, key=key), key=key):
+    for _, grouped in groupby(sorted(iterable, key=key), key=key):
         yield list(grouped)
 
 
@@ -47,10 +47,14 @@ def aggregate_by_department(docs, values_to_aggregate=("pageviews",)):
             for grouped in group(docs, key)]
 
 
-def thinking():
-    p1, br1 = 1000, 0.25
-    p2, br2 = 1000, 0.75
+def test_make_aggregate_sum():
+    from nose.tools import assert_equal
+    doc1 = {"a":2, "b":2, "c":2, "visits": 201}
+    doc2 = {"a":2, "b":2, "c":2, "visits": 103}
 
-    sum(p * b for p, b in pbs) / sum(p for p, _ in pbs)
+    aggregate_doc = make_aggregate([doc1, doc2], ("visits", ))
+    expected_aggregate = {"a":2, "b":2, "c":2, "visits": 304}
+    assert_equal(aggregate_doc, expected_aggregate)
 
-    (p1 * br1 + p2 * br2) / (p1 + p2)
+def test_make_aggregate_rate():
+    pass
