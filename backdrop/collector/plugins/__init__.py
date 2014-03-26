@@ -3,3 +3,5 @@ from .department import ComputeDepartmentKey
 from .remove_key import RemoveKey
 
 from .load_plugin import load_plugins
+
+from .compute_id import ComputeIdFrom
