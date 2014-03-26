@@ -1,10 +1,14 @@
 import re
 
+
 class ComputeDepartmentKey(object):
+
     """
-    Adds a 'department' key to a dictionary by looking up the department from the specified, key_name.
-    It takes the first department code of form <[code]> from document[key_name].
+    Adds a 'department' key to a dictionary by looking up the department from
+    the specified, key_name. It takes the first department code of form
+    <[code]> from document[key_name].
     """
+
     def __init__(self, key_name):
         self.key_name = key_name
 
