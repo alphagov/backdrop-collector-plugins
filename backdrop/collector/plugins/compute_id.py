@@ -19,6 +19,16 @@ class ComputeIdFrom(object):
         self.fields = fields
 
     def __call__(self, documents):
+        for document in documents:
+
+            id_parts = (stringify(document[field]) for field in self.fields)
+            id_string = "_".join(id_parts)
+
+            _id, humanId = value_id(id_string)
+
+            document['_id'] = _id
+            document['humanId'] = humanId
+
         return documents
 
 
