@@ -17,4 +17,5 @@ setup(
     keywords='api data performance_platform google_analytics',
 
     setup_requires=['setuptools'],
+    install_requires=['pytz==2013d'],
 )
