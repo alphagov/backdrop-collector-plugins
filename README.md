@@ -75,6 +75,11 @@ or `aggregate_rate('rate_varname', 'count_varname')` which can be used to
 combine records where `'rate_varname'` represent a rate (e.g, a bounce rate),
 weighted according to an appropriate `'count_varname'`
 
+## [Comment](https://github.com/alphagov/backdrop-collector-plugins/blob/master/backdrop/collector/plugins/comment.py)(args...)
+
+Ignores its arguments, useful for putting comments into the list of plugins
+to explain what they are doing.
+
 # Example configuration
 
 ```json
@@ -95,8 +100,10 @@ weighted according to an appropriate `'count_varname'`
   },
   "plugins": [
     "ComputeDepartmentKey('customVarValue9')",
-    "RemoveKey('customVarValue9')",
-    "AggregateKey(aggregate_count('visitors'))"
+    "Comment('customVarValue9 must be removed from the document before aggregation')",
+    "RemoveKey('_id', 'humanId', 'customVarValue9')",
+    "AggregateKey(aggregate_count('visitors'))",
+    "ComputeIdFrom('_timestamp', 'timeSpan', 'dataType', 'department')"
   ]
 }
 ```
