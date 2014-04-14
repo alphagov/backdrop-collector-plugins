@@ -6,6 +6,7 @@ from .aggregate import AggregateKey, aggregate_count, aggregate_rate
 from .comment import Comment
 from .compute_id import ComputeIdFrom
 from .department import ComputeDepartmentKey
+from .rank import ComputeRank
 from .remove_key import RemoveKey
 
 from .load_plugin import load_plugins
