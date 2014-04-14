@@ -63,6 +63,12 @@ Computes a `department` field based on the contents of the given variable name.
 
 Recomputes the `_id` and `humanId` fields from the specified 
 
+## [ComputeRank](https://github.com/alphagov/backdrop-collector-plugins/blob/master/backdrop/collector/plugins/rank.py)('varname')
+
+Fills the `varname` key with the rank of the document, starting from 1.
+
+Useful key for filling "top N" tables.
+
 ## [RemoveKey](https://github.com/alphagov/backdrop-collector-plugins/blob/master/backdrop/collector/plugins/remove_key.py)('varname1', [varname2]...)
 
 Delete the given keys from all documents.
