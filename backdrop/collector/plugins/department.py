@@ -25,6 +25,46 @@ class ComputeDepartmentKey(object):
         return [compute_department(document) for document in documents]
 
 
+class SetDepartment(object):
+
+    """
+    Adds a 'department' key to a dictionary by using the department specified
+    in the constructor. It takes the first department code of form <[code]>,
+    and if that doesn't exist it uses the string verbatim.
+
+    This assumes that all of the data being processed belongs to the same
+    single department.
+
+    For example:
+
+        SetDepartment("<D3>")
+        SetDepartment("Department for fooing the bar")
+    """
+
+    def __init__(self, department_or_code):
+        self.department_or_code = department_or_code
+        self.value = try_get_department(self.department_or_code)
+
+    def __call__(self, documents):
+        for document in documents:
+            document["department"] = self.value
+        return documents
+
+
+def try_get_department(department_or_code):
+    """
+    Try to take the first department code, or fall back to string as passed
+    """
+    return department_or_code
+
+
+def test_try_get_department():
+    from nose.tools import assert_equal
+    assert_equal(try_get_department("<D1>"), "attorney-generals-office")
+    assert_equal(try_get_department("<D1><foo>"), "attorney-generals-office")
+    assert_equal(try_get_department("<foo>"), "<foo>")
+
+
 def take_first_department_code(department_codes):
     get_first_re = re.compile("^(<[^>]+>).*$")
     match = get_first_re.match(department_codes)
