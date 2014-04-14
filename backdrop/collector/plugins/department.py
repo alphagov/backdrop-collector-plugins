@@ -55,7 +55,15 @@ def try_get_department(department_or_code):
     """
     Try to take the first department code, or fall back to string as passed
     """
-    return department_or_code
+    try:
+        value = take_first_department_code(department_or_code)
+    except AssertionError:
+        value = department_or_code
+
+    if value in DEPARTMENT_MAPPING:
+        value = DEPARTMENT_MAPPING[value]
+
+    return value
 
 
 def test_try_get_department():
