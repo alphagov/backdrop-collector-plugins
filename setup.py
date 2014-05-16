@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='backdrop-collector-plugins',
-    version="1.1.1",
+    version="1.1.2",
     packages=["backdrop.collector.plugins"],
     namespace_packages=['backdrop', 'backdrop.collector'],
 
